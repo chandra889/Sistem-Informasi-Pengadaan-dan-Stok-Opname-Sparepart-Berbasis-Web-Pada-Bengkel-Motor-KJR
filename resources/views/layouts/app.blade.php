@@ -53,27 +53,42 @@
             </button>
 
             <!-- Menu Navigasi -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('/') ? 'active fw-bold' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('spareparts*') ? 'active fw-bold' : '' }}" href="{{ route('spareparts.index') }}">Data Sparepart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('stok-masuk*') ? 'active fw-bold' : '' }}" href="{{ route('stok_masuk.index') }}">Stok Masuk</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('stok-keluar*') ? 'active fw-bold' : '' }}" href="{{ route('stok_keluar.index') }}">Stok Keluar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('stok-opnam*') ? 'active fw-bold' : '' }}" href="{{ route('stok_opnam.index') }}">Stok Opnam</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('/') ? 'active fw-bold' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('spareparts*') ? 'active fw-bold' : '' }}" href="{{ route('spareparts.index') }}">Data Sparepart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('stok-masuk*') ? 'active fw-bold' : '' }}" href="{{ route('stok_masuk.index') }}">Stok Masuk</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('stok-keluar*') ? 'active fw-bold' : '' }}" href="{{ route('stok_keluar.index') }}">Stok Keluar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('stok-opnam*') ? 'active fw-bold' : '' }}" href="{{ route('stok_opnam.index') }}">Stok Opnam</a>
+                </li>
+
+            <!-- User Profile & Logout -->
+            @auth
+                <li class="nav-item dropdown ms-lg-3 mt-2 mt-lg-0">
+                    <a class="nav-link dropdown-toggle btn btn-outline-light text-white btn-sm px-3" href="#" role="button" data-bs-toggle="dropdown">
+                <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
+                    </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                    <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="dropdown-item text-danger">
+                        <i class="bi bi-box-arrow-right me-2"></i> Keluar (Logout)
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </li>
+    @endauth
+</ul>
 
     <!-- Konten Utama Aplikasi -->
     <main class="pb-5">

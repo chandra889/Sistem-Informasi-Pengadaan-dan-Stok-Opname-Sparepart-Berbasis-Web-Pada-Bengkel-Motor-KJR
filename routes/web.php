@@ -1,34 +1,39 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SparepartController;
+use App\Http\Controllers\StokMasukController;
 use App\Http\Controllers\StokKeluarController;
 use App\Http\Controllers\StokOpnamController;
-use App\Http\Controllers\StokMasukController;
-use App\Http\Controllers\DashboardController;
-use App\Models\Sparepart;
 
-Route::get('/', function () {
-    // Ambil sparepart yang stoknya <= min_stok (ROP)
-    $low_stocks = Sparepart::whereColumn('stok', '<=', 'min_stok')->get();
-    return view('dashboard', compact('low_stocks'));
-})->name('dashboard');
+// Route Tamu (Hanya bisa diakses jika BELUM login)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+});
 
-// Master Sparepart
-Route::get('/spareparts', [SparepartController::class, 'index'])->name('spareparts.index');
-Route::post('/spareparts', [SparepartController::class, 'store'])->name('spareparts.store');
+// Route Terproteksi (Wajib LOGIN)
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Stok Keluar
-Route::get('/stok-keluar', [StokKeluarController::class, 'index'])->name('stok_keluar.index');
-Route::post('/stok-keluar', [StokKeluarController::class, 'store'])->name('stok_keluar.store');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-// Stok Opnam
-Route::get('/stok-opnam', [StokOpnamController::class, 'index'])->name('stok_opnam.index');
-Route::post('/stok-opnam', [StokOpnamController::class, 'store'])->name('stok_opnam.store');
+    // Route Spareparts
+    Route::resource('spareparts', SparepartController::class);
 
-// Stok Masuk
-Route::get('/stok-masuk', [StokMasukController::class, 'index'])->name('stok_masuk.index');
-Route::post('/stok-masuk', [StokMasukController::class, 'store'])->name('stok_masuk.store');
+    // Route Stok Masuk
+    Route::get('/stok-masuk', [StokMasukController::class, 'index'])->name('stok_masuk.index');
+    Route::post('/stok-masuk', [StokMasukController::class, 'store'])->name('stok_masuk.store');
 
+    // Route Stok Keluar
+    Route::get('/stok-keluar', [StokKeluarController::class, 'index'])->name('stok_keluar.index');
+    Route::post('/stok-keluar', [StokKeluarController::class, 'store'])->name('stok_keluar.store');
 
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    // Route Stok Opnam
+    Route::get('/stok-opnam', [StokOpnamController::class, 'index'])->name('stok_opnam.index');
+    Route::post('/stok-opnam', [StokOpnamController::class, 'store'])->name('stok_opnam.store');
+});
