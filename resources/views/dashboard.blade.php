@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="h4 font-weight-bold text-gray-800">Dashboard Bengkel Motor KJR</h2>
+        <h2 class="h4 font-weight-bold text-gray-800">Dashboard</h2>
         <span class="text-muted"><i class="bi bi-calendar-event me-1"></i> {{ date('d F Y') }}</span>
     </div>
 
