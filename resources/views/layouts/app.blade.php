@@ -72,22 +72,24 @@
 
             <!-- User Profile & Logout -->
             @auth
-                <li class="nav-item dropdown ms-lg-3 mt-2 mt-lg-0">
-                    <a class="nav-link dropdown-toggle btn btn-outline-light text-white btn-sm px-3" href="#" role="button" data-bs-toggle="dropdown">
-                <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
-                    </a>
-                <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                    <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="dropdown-item text-danger">
-                        <i class="bi bi-box-arrow-right me-2"></i> Keluar (Logout)
-                    </button>
-                </form>
-            </li>
-        </ul>
-    </li>
-    @endauth
+<li class="nav-item dropdown ms-lg-3 mt-2 mt-lg-0">
+    <a class="nav-link dropdown-toggle btn btn-outline-light text-white btn-sm px-3" href="#" role="button" data-bs-toggle="dropdown">
+        <i class="bi bi-person-circle me-1"></i> 
+        {{ Auth::user()->name }} 
+        <span class="badge bg-warning text-dark ms-1">{{ strtoupper(Auth::user()->role) }}</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+        <li>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item text-danger">
+                    <i class="bi bi-box-arrow-right me-2"></i> Keluar (Logout)
+                </button>
+            </form>
+        </li>
+    </ul>
+</li>
+@endauth
 </ul>
 
     <!-- Konten Utama Aplikasi -->

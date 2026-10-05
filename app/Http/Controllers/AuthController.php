@@ -18,7 +18,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    // Proses Login
+    // Proses Login (Hanya Admin dan Owner)
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -27,9 +27,22 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->remember)) {
-            $request->session()->regenerate(); // Mencegah Session Fixation Attack
+            $user = Auth::user();
 
-            return redirect()->intended('/')->with('success', 'Selamat datang kembali!');
+            // Cek apakah role user adalah 'admin' atau 'owner'
+            if (in_array($user->role, ['admin', 'owner'])) {
+                $request->session()->regenerate(); // Mencegah Session Fixation Attack
+                return redirect()->intended('/')->with('success', 'Selamat datang kembali, ' . ucfirst($user->role) . '!');
+            }
+
+            // Jika role bukan admin/owner, logout seketika dan beri pesan penolakan
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return back()->withErrors([
+                'email' => 'Akses ditolak. Halaman ini hanya dapat diakses oleh Admin atau Owner.',
+            ])->onlyInput('email');
         }
 
         return back()->withErrors([
@@ -43,19 +56,21 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    // Proses Registrasi
+    // Proses Registrasi (Default diberi role 'admin')
     public function register(Request $request)
     {
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'role'     => 'nullable|in:admin,owner', // Pilihan role saat registrasi
         ]);
 
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'role'     => $request->role ?? 'admin', // Default ke admin jika tidak dipilih
         ]);
 
         Auth::login($user);

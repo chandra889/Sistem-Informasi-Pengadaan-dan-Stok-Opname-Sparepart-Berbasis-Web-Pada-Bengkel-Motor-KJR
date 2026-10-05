@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+        public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -17,9 +17,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            // Tambahkan kolom role di bawah ini
+            $table->enum('role', ['admin'])->default('admin');
             $table->rememberToken();
             $table->timestamps();
         });
+    
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
