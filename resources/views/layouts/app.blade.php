@@ -71,6 +71,11 @@
                             <i class="bi bi-clipboard-check me-1"></i> Stok Opnam
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('laporan*') ? 'active fw-bold' : '' }}" href="{{ route('laporan.index') }}">
+                            <i class="bi bi-file-earmark-text me-1"></i> Laporan
+                        </a>
+<                   /li>
                 </ul>
 
                 <!-- Menu Kanan (Profil Admin & Logout) -->

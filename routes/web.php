@@ -7,6 +7,7 @@ use App\Http\Controllers\SparepartController;
 use App\Http\Controllers\StokMasukController;
 use App\Http\Controllers\StokKeluarController;
 use App\Http\Controllers\StokOpnamController;
+use App\Http\Controllers\LaporanController;
 
 // Route Tamu (Belum Login)
 Route::middleware('guest')->group(function () {
@@ -27,4 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/stok-keluar', [StokKeluarController::class, 'store'])->name('stok_keluar.store');
     Route::get('/stok-opnam', [StokOpnamController::class, 'index'])->name('stok_opnam.index');
     Route::post('/stok-opnam', [StokOpnamController::class, 'store'])->name('stok_opnam.store');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::get('/laporan/export', [LaporanController::class, 'exportExcel'])->name('laporan.export');
 });
