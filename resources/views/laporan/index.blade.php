@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Sistem - Bengkel Admin')
+@section('title', 'Laporan System - Bengkel Admin')
 
 @section('content')
 <div class="row justify-content-center">
@@ -8,7 +8,7 @@
         <div class="card border-0 shadow-sm rounded-4">
             <div class="card-header bg-white py-3 border-0">
                 <h4 class="fw-bold text-dark mb-0"><i class="bi bi-file-earmark-excel-fill text-success me-2"></i>Export Laporan ke Excel</h4>
-                <p class="text-muted small mb-0">Pilih laporan otomatis berdasarkan periode atau atur tanggal manual untuk atasan.</p>
+                <p class="text-muted small mb-0">Pilih laporan otomatis berdasarkan period atau atur tanggal manual untuk atasan.</p>
             </div>
             <div class="card-body p-4">
 
@@ -25,8 +25,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Pilih Periode Otomatis / Manual</label>
-                        <select name="periode" id="periodeSelect" class="form-select" onchange="toggleCustomDate(this.value)">
+                        <label class="form-label fw-semibold">Pilih Period Otomatis / Manual</label>
+                        <select name="period" id="periodSelect" class="form-select" onchange="toggleCustomDate(this.value)">
                             <option value="semua">Semua Waktu (Keseluruhan)</option>
                             <option value="bulan">Bulan Ini (Otomatis)</option>
                             <option value="6bulan">6 Bulan Terakhir (Otomatis)</option>
