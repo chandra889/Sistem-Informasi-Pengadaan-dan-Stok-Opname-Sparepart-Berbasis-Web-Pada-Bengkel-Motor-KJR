@@ -19,10 +19,10 @@ class LaporanController extends Controller
     public function exportExcel(Request $request)
     {
         $request->validate([
-            'jenis_laporan' => 'required|in:sparepart,masuk,keluar,opnam',
-            'periode'       => 'nullable|in:semua,bulan,6bulan,tahun,custom',
-            'tanggal_mulai' => 'nullable|date',
-            'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_mulai',
+            'jenis_laporan'   => 'required|in:sparepart,masuk,keluar,opnam',
+            'periode'         => 'nullable|in:semua,bulan,6bulan,tahun,custom',
+            'dari_tanggal'    => 'nullable|date',
+            'sampai_tanggal'  => 'nullable|date|after_or_equal:dari_tanggal',
         ]);
 
         $jenis = $request->jenis_laporan;
@@ -42,10 +42,10 @@ class LaporanController extends Controller
         } elseif ($periode == 'tahun') {
             $mulai = Carbon::now()->startOfYear();
             $labelPeriode = 'Tahun Ini (' . Carbon::now()->year . ')';
-        } elseif ($periode == 'custom' && $request->tanggal_mulai && $request->tanggal_selesai) {
-            $mulai = Carbon::parse($request->tanggal_mulai)->startOfDay();
-            $selesai = Carbon::parse($request->tanggal_selesai)->endOfDay();
-            $labelPeriode = $request->tanggal_mulai . ' s/d ' . $request->tanggal_selesai;
+        } elseif ($periode == 'custom' && $request->dari_tanggal && $request->sampai_tanggal) {
+            $mulai = Carbon::parse($request->dari_tanggal)->startOfDay();
+            $selesai = Carbon::parse($request->sampai_tanggal)->endOfDay();
+            $labelPeriode = $request->dari_tanggal . ' s/d ' . $request->sampai_tanggal;
         }
 
         $judul = '';

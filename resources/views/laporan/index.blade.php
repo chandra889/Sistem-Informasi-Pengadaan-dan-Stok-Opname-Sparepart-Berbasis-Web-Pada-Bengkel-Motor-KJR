@@ -38,11 +38,11 @@
                     <div id="customDateBox" class="row" style="display: none;">
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">Dari Tanggal</label>
-                            <input type="date" name="tanggal_mulai" class="form-control">
+                            <input type="date" name="tanggal_mulai" value="{{ date('Y-m-d') }}" class="form-control">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-semibold">Sampai Tanggal</label>
-                            <input type="date" name="tanggal_selesai" class="form-control">
+                            <input type="date" name="tanggal_selesai" value="{{ date('Y-m-d') }}" class="form-control">
                         </div>
                     </div>
 
