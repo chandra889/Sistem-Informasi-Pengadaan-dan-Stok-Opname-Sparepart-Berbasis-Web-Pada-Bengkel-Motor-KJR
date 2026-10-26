@@ -69,10 +69,12 @@ class LaporanController extends Controller
         $data = $queryModel->get();
 
         return response()->view('laporan.excel', [
-            'judul' => $judul,
-            'jenis' => $jenis,
-            'data' => $data,
+            'judul'        => $judul,
+            'jenis'        => $jenis,
+            'data'         => $data,
             'periodeLabel' => $labelPeriode,
+            'mulai'        => $mulai ? $mulai->format('d-m-Y') : 'Semua Waktu',
+            'selesai'      => $selesai ? $selesai->format('d-m-Y') : Carbon::now()->format('d-m-Y'),
         ])->header('Content-Type', 'application/vnd.ms-excel')
           ->header('Content-Disposition', 'attachment; filename="' . strtolower(str_replace(' ', '_', $judul)) . '_' . date('Y-m-d') . '.xls"');
     }
